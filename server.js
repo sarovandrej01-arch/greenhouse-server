@@ -3,6 +3,8 @@ const express = require("express");
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+let lastData = {};
+
 app.use(express.json());
 
 app.get("/", (req, res) => {
@@ -10,9 +12,13 @@ app.get("/", (req, res) => {
 });
 
 app.post("/update", (req, res) => {
-  console.log("Received data:", req.body);
-
+  lastData = req.body;
+  console.log("Received:", lastData);
   res.json({ status: "ok" });
+});
+
+app.get("/status", (req, res) => {
+  res.json(lastData);
 });
 
 app.listen(PORT, () => {
